@@ -1,11 +1,15 @@
-name: Release sandbox pack
+name: Retry sandbox catalog proposal
 on:
   workflow_dispatch:
+    inputs:
+      version:
+        description: Already published exact package version; never republishes
+        required: true
+        type: string
 permissions:
   contents: read
-  id-token: write
 jobs:
-  release:
+  propose:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -14,28 +18,14 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 24
-          registry-url: https://registry.npmjs.org
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version: 1.3.11
       - run: bun install --frozen-lockfile --ignore-scripts
-      - run: bunx playwright@1.63.0 install --with-deps chromium
-      - run: sudo apt-get install -y --no-install-recommends libfaketime
-      - name: Build with public tools through a fresh World
-        run: bun scripts/run-world.ts build
-      - name: Assess the independent pack through a fresh World
-        run: bun scripts/run-world.ts assess --browser
-      - name: Pack immutable release bytes
-        run: |
-          mkdir -p release
-          cd tavily
-          npm pack --ignore-scripts --pack-destination ../release
-      - name: Publish the sandbox package with real repository provenance
+      - name: Prepare existing immutable published identity
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: npm publish --ignore-scripts --access public --provenance ./release/*.tgz
-      - name: Confirm immutable published identity and prepare catalog data
-        run: node scripts/prepare-submission.mjs
+          SUBMISSION_VERSION: ${{ inputs.version }}
+        run: node node_modules/@volter/twin-catalog-sandbox/bin/twin-catalog.mjs submit --confirm-published --source sandbox-publisher --vendor tavily --package @volter/twin-sandbox-tavily --version "$SUBMISSION_VERSION" --out-dir "$RUNNER_TEMP/catalog-submissions"
       - name: Mint a repository-scoped catalog proposal token
         id: catalog-proposal-token
         uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1
@@ -46,15 +36,13 @@ jobs:
           repositories: twin-catalog-sandbox
           permission-contents: write
           permission-pull-requests: write
-      - name: Propose data from this independent publisher
+      - name: Propose data without republishing, reopening or merging
         env:
           GH_TOKEN: ${{ steps.catalog-proposal-token.outputs.token }}
         run: node node_modules/@volter/twin-catalog-sandbox/bin/twin-catalog.mjs propose --repository volter-ai/twin-catalog-sandbox --from "$RUNNER_TEMP/catalog-submissions" --send
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: sandbox-pack-${{ github.run_id }}
-          path: |
-            assessment/
-            release/
-            ${{ runner.temp }}/catalog-submissions/
+          name: sandbox-submissions-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/catalog-submissions/
+          if-no-files-found: ignore

@@ -13,6 +13,7 @@
       "devDependencies": {
         "@types/bun": "^1.2.20",
         "@types/node": "^24.0.0",
+        "@volter/twin-catalog-sandbox": "0.2.9",
         "typescript": "5.9.3",
       },
     },
@@ -53,6 +54,8 @@
     "@volter/browser-sandboxes": ["@volter/browser-sandboxes@0.1.84", "", { "dependencies": { "@volter/browser-runtime": "^0.1.5" }, "bin": { "browser-substrate-mcp": "dist/bin/mcp.js", "browser-substrate-control-plane": "dist/bin/control-plane.js" } }, "sha512-QeOGeDMrmmchbLWlBwhURaYEncggDiebJD4N3GPDkbN26q245yuz4AO+Gh+B8cDXaJvXullQBQdJuksxzDbNhA=="],
 
     "@volter/conduit": ["@volter/conduit@0.1.1", "", { "peerDependencies": { "ws": "^8.21.3" }, "optionalPeers": ["ws"] }, "sha512-KhVfKxxNmDlzBURb7YYZbzGcwiq9pII8r6xmcF6nx37vhqHJ0PzoPtvHhKBzGR+WpB3eLa4hQcyTGNDIGOeORw=="],
+
+    "@volter/twin-catalog-sandbox": ["@volter/twin-catalog-sandbox@0.2.9", "", { "bin": { "twin-catalog": "bin/twin-catalog.mjs" } }, "sha512-nIWZOjX2L008FGpxjujVTnpwSLbhz2mRSZMk1/On1ikxVA6y/KY5Mf7a896XAWj4DetYukjpK1Y/rQvWTd61UA=="],
 
     "@volter/twin-standard": ["@volter/twin-standard@1.0.39", "", { "dependencies": { "graphql": "^16.13.2", "typescript": "^5.9.0", "yaml": "2.9.0" }, "peerDependencies": { "@volter/world-core": "3.0.47", "@volter/world-runtime": "*", "playwright": "^1.63.0" }, "optionalPeers": ["@volter/world-runtime", "playwright"], "bin": { "twin-standard": "dist/src/cli.js" } }, "sha512-/31F4MyHnYtijRY8vhwxN0fvV7QwwccDVB15f9CEYpi9V8qBH637P40LOSBvrZ2GDPx4vg09UkB/Cl4j1a2Wlw=="],
 
