@@ -1,0 +1,16 @@
+{
+  "name": "twin-packs-sandbox-workspace",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@volter/world-core": "3.0.47",
+    "@volter/world-runtime": "3.0.47",
+    "@volter/twin-standard": "1.0.39",
+    "playwright": "1.63.0"
+  },
+  "devDependencies": {
+    "typescript": "5.9.3",
+    "@types/node": "^24.0.0",
+    "@types/bun": "^1.2.20"
+  }
+}

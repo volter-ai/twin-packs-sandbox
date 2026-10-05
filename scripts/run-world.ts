@@ -1,0 +1,11 @@
+import { mkdtempSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+import { spawnSync } from 'node:child_process';
+const mode = process.argv[2];
+if (!['build', 'assess'].includes(mode ?? '')) throw new Error('choose build or assess');
+const work = mkdtempSync(join(tmpdir(), 'public-pack-' + mode + '-'));
+const config = join(work, 'world.json');
+writeFileSync(config, JSON.stringify({ id: 'public-pack-' + mode, services: [], network: { egress: [] } }));
+const result = spawnSync(process.execPath, [join(process.cwd(), 'node_modules/@volter/world-runtime/src/cli.ts'), 'run', config, '--root', work, '--env-out', join(work, 'world.env'), '--owner', 'public-pack-' + mode, '--', process.execPath, 'scripts/' + mode + '.ts', ...process.argv.slice(3)], { stdio: 'inherit' });
+process.exit(result.status ?? 1);

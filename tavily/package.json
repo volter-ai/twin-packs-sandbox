@@ -1,0 +1,41 @@
+{
+  "name": "@volter/twin-sandbox-tavily",
+  "version": "0.0.1",
+  "description": "Disposable Tavily pack for the public catalog integration test.",
+  "keywords": [
+    "twin",
+    "tavily",
+    "search"
+  ],
+  "author": "Volter (https://github.com/volter-ai)",
+  "license": "Apache-2.0",
+  "files": [
+    "src",
+    "spec",
+    "journeys",
+    "README.md",
+    "LICENSE",
+    "!**/*.test.ts",
+    "dist",
+    "generated"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/volter-ai/twin-packs-sandbox.git",
+    "directory": "tavily"
+  },
+  "homepage": "https://github.com/volter-ai/twin-packs-sandbox/tree/main/tavily",
+  "type": "module",
+  "exports": {
+    ".": "./dist/src/index.js"
+  },
+  "bin": {
+    "world-tavily": "dist/src/cli.js"
+  },
+  "peerDependencies": {
+    "@volter/world-core": "^3.0.47"
+  },
+  "engines": {
+    "node": ">=22.3"
+  }
+}
