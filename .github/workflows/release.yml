@@ -33,7 +33,7 @@ jobs:
       - name: Publish the sandbox package with real repository provenance
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: npm publish --ignore-scripts --access public --provenance release/volter-twin-sandbox-tavily-0.0.1.tgz
+        run: npm publish --ignore-scripts --access public --provenance ./release/volter-twin-sandbox-tavily-0.0.1.tgz
       - uses: actions/upload-artifact@v4
         if: always()
         with:
